@@ -20,7 +20,7 @@ let
 
     installPhase = ''
             mkdir -p $out/share/predator-control $out/bin $out/share/applications
-            install -m644 ${./predator-control.py} $out/share/predator-control/predator-control.py
+            install -m644 ${../linuwu-sense-gui.py} $out/share/predator-control/predator-control.py
 
             makeWrapper ${pythonEnv}/bin/python3 $out/bin/predator-control \
               --add-flags "$out/share/predator-control/predator-control.py"

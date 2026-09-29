@@ -1,19 +1,51 @@
 # linuwu-sense-gui
 
-GTK4 GUI for [Linuwu-Sense](https://github.com/PXDiv/Div-Linuwu-Sense):
-RGB keyboard (effects and per-zone colors), fan control, auto-off timeout,
-and a "start at 0 brightness after restart" option for Acer Predator/Nitro laptops.
+A simple GTK4 app to control the RGB keyboard and fans on Acer Predator/Nitro laptops (NixOS).
+It is a GUI for [Linuwu-Sense](https://github.com/PXDiv/Div-Linuwu-Sense).
 
-Tested only on the Predator PHN16-71 under NixOS.
+Features: keyboard effects, per-zone colors, fan control, auto-off timeout,
+and an option to start at 0 brightness after restart.
 
-## Files
-- `linuwu-sense-gui.py`: the GTK4 app
-- `nix/gui.nix`: Home Manager packaging
-- `nix/driver-and-boot.nix`: builds the driver and applies saved state at boot
+Tested only on the Predator PHN16-71.
 
-## Note
-Set `linuwu-sense.enable = true;` and `linuwu-sense.user = "yourusername";` in your NixOS config.
+## Install
+
+1. Copy this whole folder into your NixOS config, for example `~/.dotfiles/linuwu-sense-gui/`.
+
+2. In your **NixOS** config, add:
+
+```nix
+imports = [ ./linuwu-sense-gui/nix/driver-and-boot.nix ];
+
+linuwu-sense.enable = true;
+linuwu-sense.user = "yourusername";
+```
+
+3. In your **Home Manager** config, add:
+
+```nix
+imports = [ ./linuwu-sense-gui/nix/gui.nix ];
+```
+
+4. If you use git or flakes, run `git add .` so Nix can see the new files.
+
+5. Rebuild, then **reboot** (the driver replaces the stock acer_wmi module):
+
+```bash
+sudo nixos-rebuild switch --flake . # or "nh os switch" (if you use nh)
+home-manager switch --flake . # or "nh home switch" (if you use nh)
+sudo reboot
+```
+
+
+Adjust the rebuild commands to how you normally rebuild.
+
+## Run
+
+Open **Predator Control** from your app menu, or run `predator-control` in a terminal.
+
+Your last settings are saved and re-applied automatically at boot.
 
 ## Credits
-Driver: Linuwu-Sense (PXDiv fork). This project is an independent GUI and
-contains none of the driver code.
+
+Driver: Linuwu-Sense (PXDiv fork). This project is an independent GUI and contains none of the driver code.
